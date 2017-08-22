@@ -23,6 +23,7 @@
   "prefer-stable": true,
   "require": {
     "behat/transliterator": "^1.2",
+    "cocur/slugify": "^3.0",
     "guzzlehttp/guzzle": "^6.3",
     "symfony/http-kernel": "^3.2",
     "uma/psr7-hmac": "^0.5.1"
