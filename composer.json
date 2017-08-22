@@ -1,0 +1,33 @@
+{
+  "name": "randock/utils",
+  "description": "Randock Utils",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Randock\\Utils\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Randock\\Utils\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "7.1"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "behat/transliterator": "^1.2",
+    "guzzlehttp/guzzle": "^6.3",
+    "symfony/http-kernel": "^3.3",
+    "uma/psr7-hmac": "^0.6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.0"
+  }
+}
