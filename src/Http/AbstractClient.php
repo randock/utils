@@ -7,6 +7,7 @@ namespace Randock\Utils\Http;
 use GuzzleHttp\Client as Http;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
+use Randock\Utils\Http\Exception\FormErrorsException;
 use Randock\Utils\Http\HMAC\HmacApiTrait;
 use Randock\Utils\Http\Exception\HttpException;
 
@@ -92,5 +93,44 @@ abstract class AbstractClient
         }
 
         return $response;
+    }
+
+    /**
+     * @param HttpException $exception
+     *
+     * @throws FormErrorsException
+     */
+    protected function throwFormErrorsException(HttpException $exception): void
+    {
+        // decode body
+        $response = json_decode($exception->getBody());
+
+        // check if it is a general error or forms
+        if (isset($response->children)) {
+            $errors = [];
+            foreach ($response->children as $fieldName => $fieldData) {
+                if (isset($fieldData->errors)) {
+                    foreach ($fieldData->errors as $fieldError) {
+                        $error = new \stdClass();
+                        $error->field = $fieldName;
+                        $error->message = $fieldError;
+
+                        $errors[] = $error;
+                    }
+                }
+            }
+
+            // parse body
+            throw new FormErrorsException($errors);
+        } elseif (isset($response->message)) {
+            $error = new \stdClass();
+            $error->field = '';
+            $error->message = $response->message;
+
+            // an generic msg to be rendered on top of the form
+            throw new FormErrorsException([
+                $error,
+            ]);
+        }
     }
 }
