@@ -6,10 +6,11 @@ namespace Randock\Utils\Http;
 
 use GuzzleHttp\Client as Http;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Exception\RequestException;
-use Randock\Utils\Http\Exception\FormErrorsException;
 use Randock\Utils\Http\HMAC\HmacApiTrait;
+use GuzzleHttp\Exception\RequestException;
 use Randock\Utils\Http\Exception\HttpException;
+use Randock\Utils\Http\Exception\FormErrorsException;
+use Randock\Utils\Http\Definition\CredentialsProviderInterface;
 
 /**
  * Class AbstractClient.
@@ -19,6 +20,11 @@ abstract class AbstractClient
     use HmacApiTrait;
 
     /**
+     * @var CredentialsProviderInterface
+     */
+    private $credentialsProvider = null;
+
+    /**
      * @var Http
      */
     protected $http;
@@ -26,15 +32,15 @@ abstract class AbstractClient
     /**
      * AbstractClient constructor.
      *
-     * @param string $endPoint
+     * @param string $endpoint
      * @param array  $options
      */
-    public function __construct(string $endPoint, array $options = [])
+    public function __construct(string $endpoint, array $options = [])
     {
         $optionsDefault = ['timeout' => 10];
 
         $options = array_merge($optionsDefault, $options);
-        $options['base_uri'] = $endPoint;
+        $options['base_uri'] = $endpoint;
 
         $this->http = new Http(
             $options
@@ -63,6 +69,12 @@ abstract class AbstractClient
     protected function request(string $method, string $path, array $options = []): ResponseInterface
     {
         try {
+
+            // check if we need to get credentials from a provider
+            if (null !== $this->credentialsProvider) {
+                $options['auth'] = $this->credentialsProvider->getCredentials();
+            }
+
             $response = $this->http->request($method, $path, $options);
 
             if ($response->getStatusCode() < 200 || $response->getStatusCode() > 299) {
@@ -133,4 +145,18 @@ abstract class AbstractClient
             ]);
         }
     }
+
+    /**
+     * @param CredentialsProviderInterface $credentialsProvider
+     *
+     * @return AbstractClient
+     */
+    public function setCredentialsProvider(
+        CredentialsProviderInterface $credentialsProvider
+    ): AbstractClient {
+        $this->credentialsProvider = $credentialsProvider;
+
+        return $this;
+    }
+
 }

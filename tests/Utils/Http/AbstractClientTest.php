@@ -28,9 +28,9 @@ class AbstractClientTest extends \PHPUnit_Framework_TestCase
 
 class BaseClient extends AbstractClient
 {
-    public function __construct($endPoint, array $options = [])
+    public function __construct($endpoint, array $options = [])
     {
-        parent::__construct($endPoint, $options);
+        parent::__construct($endpoint, $options);
     }
 
     public function getGoogleMapsEndPoint()
