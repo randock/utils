@@ -32,15 +32,18 @@ abstract class AbstractClient
     /**
      * AbstractClient constructor.
      *
-     * @param string $endpoint
-     * @param array  $options
+     * @param null|string $endpoint
+     * @param array $options
      */
-    public function __construct(string $endpoint, array $options = [])
+    public function __construct(?string $endpoint, array $options = [])
     {
         $optionsDefault = ['timeout' => 10];
 
         $options = array_merge($optionsDefault, $options);
-        $options['base_uri'] = $endpoint;
+
+        if (null !== $endpoint) {
+            $options['base_uri'] = $endpoint;
+        }
 
         $this->http = new Http(
             $options
