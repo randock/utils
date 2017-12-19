@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException as BaseHttpException;
 class HttpException extends BaseHttpException
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $body;
 
@@ -20,9 +20,9 @@ class HttpException extends BaseHttpException
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }
