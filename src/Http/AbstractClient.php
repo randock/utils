@@ -75,7 +75,15 @@ abstract class AbstractClient
 
             // check if we need to get credentials from a provider
             if (null !== $this->credentialsProvider) {
-                $options['auth'] = $this->credentialsProvider->getCredentials();
+                if (null !== $this->credentialsProvider->getCredentials()) {
+                    $options['auth'] = $this->credentialsProvider->getCredentials();
+                }
+                if (null !== $this->credentialsProvider->getHeaders()) {
+                    $options['headers'] = array_merge(
+                        $options['headers'] ?? [],
+                        $this->credentialsProvider->getHeaders()
+                    );
+                }
             }
 
             $response = $this->http->request($method, $path, $options);
