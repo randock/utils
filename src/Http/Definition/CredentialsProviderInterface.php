@@ -7,7 +7,7 @@ namespace Randock\Utils\Http\Definition;
 interface CredentialsProviderInterface
 {
     /**
-     * Return an array with username, password (without keys)
+     * Return an array with username, password (without keys) to add to ['auth'] options
      *
      * @return array
      */

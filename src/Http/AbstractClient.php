@@ -10,6 +10,7 @@ use Randock\Utils\Http\HMAC\HmacApiTrait;
 use GuzzleHttp\Exception\RequestException;
 use Randock\Utils\Http\Exception\HttpException;
 use Randock\Utils\Http\Exception\FormErrorsException;
+use Randock\Utils\Http\Definition\HeaderProviderInterface;
 use Randock\Utils\Http\Definition\CredentialsProviderInterface;
 
 /**
@@ -75,7 +76,15 @@ abstract class AbstractClient
 
             // check if we need to get credentials from a provider
             if (null !== $this->credentialsProvider) {
-                $options['auth'] = $this->credentialsProvider->getCredentials();
+                if (0 !== count($this->credentialsProvider->getCredentials())) {
+                    $options['auth'] = $this->credentialsProvider->getCredentials();
+                }
+                if ($this->credentialsProvider instanceof HeaderProviderInterface && 0 !== count($this->credentialsProvider->getHeaders())) {
+                    $options['headers'] = array_merge(
+                        $options['headers'] ?? [],
+                        $this->credentialsProvider->getHeaders()
+                    );
+                }
             }
 
             $response = $this->http->request($method, $path, $options);
