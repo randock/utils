@@ -6,11 +6,11 @@ namespace Randock\Utils\Http;
 
 use GuzzleHttp\Client as Http;
 use Psr\Http\Message\ResponseInterface;
-use Randock\Utils\Http\Definition\HeaderProviderInterface;
 use Randock\Utils\Http\HMAC\HmacApiTrait;
 use GuzzleHttp\Exception\RequestException;
 use Randock\Utils\Http\Exception\HttpException;
 use Randock\Utils\Http\Exception\FormErrorsException;
+use Randock\Utils\Http\Definition\HeaderProviderInterface;
 use Randock\Utils\Http\Definition\CredentialsProviderInterface;
 
 /**

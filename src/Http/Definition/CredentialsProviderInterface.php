@@ -9,7 +9,7 @@ interface CredentialsProviderInterface
     /**
      * Return an array with username, password (without keys) to add to ['auth'] options
      *
-     * @return array|null
+     * @return array
      */
     public function getCredentials(): array;
 

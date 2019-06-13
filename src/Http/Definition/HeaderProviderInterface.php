@@ -7,7 +7,7 @@ interface HeaderProviderInterface
     /**
      * Return an array with headers to add to the request
      *
-     * @return array|null
+     * @return array
      */
     public function getHeaders(): array;
 }
