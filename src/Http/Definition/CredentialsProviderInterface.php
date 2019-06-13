@@ -11,12 +11,6 @@ interface CredentialsProviderInterface
      *
      * @return array|null
      */
-    public function getCredentials(): ?array;
+    public function getCredentials(): array;
 
-    /**
-     * Return an array with headers to add to the request
-     *
-     * @return array|null
-     */
-    public function getHeaders(): ?array;
 }
