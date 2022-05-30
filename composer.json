@@ -24,7 +24,7 @@
   "require": {
     "behat/transliterator": "^1.2",
     "cocur/slugify": "^3.0",
-    "guzzlehttp/guzzle": "^6.3",
+    "guzzlehttp/guzzle": "^6.5",
     "symfony/http-kernel": "^3.2|^4.0|^5.0",
     "uma/psr7-hmac": "^0.5.1"
   },
